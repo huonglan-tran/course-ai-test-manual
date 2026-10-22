@@ -1,0 +1,57 @@
+# Danh mục Test Cases — Perfex CRM (khu Admin)
+
+> **Điểm vào của nhánh test case.** Đọc file này trước khi sinh / cập nhật TC của bất kỳ module nào: module nào đã có bộ TC · prefix TC ID nào đã bị chiếm · TC ID kế tiếp · độ phủ so với requirements.
+>
+> Danh mục requirements: [`../requirements/README.md`](../requirements/README.md)
+
+## 1. Bảng danh mục module
+
+| # | Module | Prefix TC ID | Nền tảng | Index | Số TC | Biến thể | Số part | Độ hạt | Dải TC ID | TC kế tiếp | Cập nhật |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Login · Forgot Password | `CRM_LOGIN_TC_` | Web 65 | [`login/TEST_CASES_LOGIN_SUMMARY.md`](login/TEST_CASES_LOGIN_SUMMARY.md) | 65 | 115 | 3 | GỘP | `001` → `065` | `CRM_LOGIN_TC_066` | 20-10-2026 |
+
+**Prefix TC ID đã chiếm:** `CRM_LOGIN_TC_`
+
+> Tiền tố hệ thống `CRM_` chốt 12-10-2026 (`docs/requirements/README.md`). TC ID dạng `CRM_<PREFIX MODULE>_TC_<3 số>` — prefix module lấy đúng prefix REQ của module. Dải TC ID dùng chung mọi nền tảng của module, **không** đánh lại từ `001`.
+
+## 2. Độ phủ so với requirements
+
+| Module | REQ trong requirements | REQ có TC | REQ ngoài phạm vi viết TC | 🔴 Thiếu | TC đang bị chặn chạy |
+|---|---|---|---|---|---|
+| `LOGIN` | 50 | 50 | 0 | 0 | 11 (`@Skip` 10 · `@PersonalOnly` 1) |
+| 21 module còn lại | — | — | — | — | Chưa có requirements |
+
+## 3. Cấu trúc thư mục chuẩn
+
+```
+docs/testcases/
+├── README.md                                   ← DANH MỤC (file này)
+└── <module>/
+    ├── TEST_CASES_<TÊN_MODULE>_SUMMARY.md      ← INDEX — TÊN FILE BẤT BIẾN · không chứa dòng TC
+    ├── web/test_cases_<module>_web.md          ← TC web (≤ 50 TC ở độ hạt GỘP)
+    ├── web/parts/part_NN_web_<slug>.md         ← khi file web vượt ngưỡng
+    ├── mobile/ · api/                          ← khi module có nền tảng đó
+    ├── impact/                                 ← chế độ DELTA theo ticket
+    └── review/                                 ← /review-testcases
+```
+
+## 4. Kết quả thực thi
+
+Chưa có lần chạy nào. Kết quả `/execute-test-cases` ghi vào `docs/executions/<module>/<nền-tảng>/run_<timestamp>/execution_report.md`.
+
+## 5. Quy trình sử dụng
+
+| Tình huống | Workflow |
+|---|---|
+| Module mới có requirements, chưa có TC | `/generate-testcases-from-requirements` (QUICK) · `/generate-testcases-manual-rbt` (FULL RBT) |
+| Requirements đổi theo ticket, module đã có TC | `/update-testcases-from-impact` — sửa tại chỗ, giữ TC ID |
+| REQ mới chưa có TC trên module đã có bộ TC | Sinh lại bằng QUICK / FULL RBT → tự rẽ sang **chế độ BỔ SUNG**, TC ID nối tiếp |
+| Chạy tay bộ TC | `/execute-test-cases` |
+| Review chất lượng / chấm khả năng automation | `/review-testcases` (REVIEW · FIX · AUTOMATION) |
+| Sinh automation | `/generate-automation-from-testcases` |
+
+## 6. Nhật ký danh mục
+
+| Ngày | Thay đổi | Nguồn |
+|---|---|---|
+| 20-10-2026 | Khởi tạo danh mục. `LOGIN`: bộ TC web đầu tiên — 65 TC · 115 biến thể · 3 part · phủ 50/50 REQ · chiếm prefix `CRM_LOGIN_TC_` | `/generate-testcases-from-requirements` (QUICK · GỘP) |
