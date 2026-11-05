@@ -3,5 +3,4 @@ reqs/
 reports/
 .allure/
 .playwright-mcp/
-.claude/settings.local.json
 .claude/
