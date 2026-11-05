@@ -4,7 +4,7 @@
 |---|---|
 | Ticket | `CRM-LOGIN-101` — Khoá tài khoản khi đăng nhập sai nhiều lần (PO chốt 21-10-2026) |
 | Ngày lập | 22-10-2026 |
-| Mode | **PLAN** — chưa sửa file TC nào, chưa ghi `delta_tc_CRM-LOGIN-101.md` |
+| Mode | **PLAN** (22-10-2026) → **✅ Đã APPLY 23-10-2026** — kết quả: [`delta_tc_CRM-LOGIN-101.md`](delta_tc_CRM-LOGIN-101.md) |
 | Impact Report nguồn | [`impact_CRM-LOGIN-101.md`](../../../requirements/login/impact/impact_CRM-LOGIN-101.md) |
 | Requirements hiện hành | [`REQUIREMENTS_LOGIN_SUMMARY.md`](../../../requirements/login/REQUIREMENTS_LOGIN_SUMMARY.md) bản 1.5 · [`web/requirements_login_web.md`](../../../requirements/login/web/requirements_login_web.md) STORY-LOGIN-07 |
 | Bộ TC | [`TEST_CASES_LOGIN_SUMMARY.md`](../TEST_CASES_LOGIN_SUMMARY.md) — 65 TC · 115 biến thể · Web · độ hạt **GỘP** (giữ nguyên) |
@@ -96,8 +96,8 @@ Nhánh KHÔNG đụng: V1 · UI cơ bản · Open form · Input valid · Save ·
 
 | # | Điều kiện | Trạng thái |
 |---|---|---|
-| 1 | **Mốc git:** `docs/testcases/` **chưa từng được commit** (`git status` → `?? docs/testcases/`). Không có mốc thì sau khi sửa tại chỗ không ai đối chiếu được bản trước | ⛔ **Cần user commit `docs/testcases/` trước** (agent không tự commit) |
-| 2 | User duyệt kế hoạch — đặc biệt 3 điểm: (a) TC 035 **không sửa** · (b) TC 036 sửa chữ + gắn `@NeedsVerify` dù chưa có evidence · (c) ghi ràng buộc "chạy tuần tự, cách nhau 15 phút" vào **Pre-Condition** thay vì tạo tag mới (`/execute-test-cases` và viewer không hiểu tag lạ) | ⏳ Chờ duyệt |
+| 1 | **Mốc git:** `docs/testcases/` **chưa từng được commit** (`git status` → `?? docs/testcases/`). Không có mốc thì sau khi sửa tại chỗ không ai đối chiếu được bản trước | ✅ User đã commit — mốc `f8025be` |
+| 2 | User duyệt kế hoạch — đặc biệt 3 điểm: (a) TC 035 **không sửa** · (b) TC 036 sửa chữ + gắn `@NeedsVerify` dù chưa có evidence · (c) ghi ràng buộc "chạy tuần tự, cách nhau 15 phút" vào **Pre-Condition** thay vì tạo tag mới (`/execute-test-cases` và viewer không hiểu tag lạ) | ✅ User chạy APPLY 23-10-2026 |
 | 3 | `.env` có `EMAIL_PM` / `PASSWORD_PM` — **không** chặn APPLY (TC 036 vẫn `@Skip`), nhưng là điều kiện để chạy TC sau này | ⏳ User tự thêm |
 
 ## 6. Ngoài phạm vi

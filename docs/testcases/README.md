@@ -8,7 +8,7 @@
 
 | # | Module | Prefix TC ID | Nền tảng | Index | Số TC | Biến thể | Số part | Độ hạt | Dải TC ID | TC kế tiếp | Cập nhật |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Login · Forgot Password | `CRM_LOGIN_TC_` | Web 65 | [`login/TEST_CASES_LOGIN_SUMMARY.md`](login/TEST_CASES_LOGIN_SUMMARY.md) | 65 | 115 | 3 | GỘP | `001` → `065` | `CRM_LOGIN_TC_066` | 20-10-2026 |
+| 1 | Login · Forgot Password | `CRM_LOGIN_TC_` | Web 83 | [`login/TEST_CASES_LOGIN_SUMMARY.md`](login/TEST_CASES_LOGIN_SUMMARY.md) | 83 | 133 | 4 | GỘP | `001` → `083` | `CRM_LOGIN_TC_084` | 23-10-2026 |
 
 **Prefix TC ID đã chiếm:** `CRM_LOGIN_TC_`
 
@@ -18,7 +18,7 @@
 
 | Module | REQ trong requirements | REQ có TC | REQ ngoài phạm vi viết TC | 🔴 Thiếu | TC đang bị chặn chạy |
 |---|---|---|---|---|---|
-| `LOGIN` | 50 | 50 | 0 | 0 | 11 (`@Skip` 10 · `@PersonalOnly` 1) |
+| `LOGIN` | 68 | 68 | 0 | 0 | 29 (`@Skip` 28 · `@PersonalOnly` 1 không kèm `@Skip`) |
 | 21 module còn lại | — | — | — | — | Chưa có requirements |
 
 ## 3. Cấu trúc thư mục chuẩn
@@ -55,3 +55,5 @@ Chưa có lần chạy nào. Kết quả `/execute-test-cases` ghi vào `docs/ex
 | Ngày | Thay đổi | Nguồn |
 |---|---|---|
 | 20-10-2026 | Khởi tạo danh mục. `LOGIN`: bộ TC web đầu tiên — 65 TC · 115 biến thể · 3 part · phủ 50/50 REQ · chiếm prefix `CRM_LOGIN_TC_` | `/generate-testcases-from-requirements` (QUICK · GỘP) |
+| 23-10-2026 | `LOGIN`: áp ticket `CRM-LOGIN-101` — sửa tại chỗ `CRM_LOGIN_TC_036` (REQ-46 🟡 khoá sau 5 lần sai). Số TC giữ 65. Requirements lên 68 REQ → phủ 50/68, REQ-51 → 68 chờ sinh bổ sung | `/update-testcases-from-impact` (APPLY) |
+| 23-10-2026 | `LOGIN`: bổ sung 18 TC (`CRM_LOGIN_TC_066` → `083`) cho REQ-51 → 68 vào part mới `part_04_web_khoa_tai_khoan.md` — 83 TC · 133 biến thể · 4 part · phủ 68/68 REQ. Toàn bộ TC mới `@Skip` (tính năng chưa triển khai) | `/generate-testcases-from-requirements` (QUICK · BỔ SUNG · GỘP) |
