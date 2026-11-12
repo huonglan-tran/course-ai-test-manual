@@ -18,7 +18,7 @@ updated: 12-11-2026
 | Test case | 83 TC · 133 biến thể · 4 part · phủ 68/68 REQ · TC kế tiếp `CRM_LOGIN_TC_084` | [`TEST_CASES_LOGIN_SUMMARY.md`](../../docs/testcases/login/TEST_CASES_LOGIN_SUMMARY.md) |
 | Tag | `@Skip` 28 · `@KnownBug` 1 (028) · `@PersonalOnly` 4 (048·068·074·075) · `@TechCheck` 14 · `@NeedsVerify` 16 · `@Smoke` 9 (001→008, 049) | index TC |
 | Checklist | Regression 28 mục | `docs/checklists/login/web/checklist_regression_20261112.md` |
-| Bug | 1 file, **đang mở** P3 | [`BUG_login_1792569135_TC005`](../../docs/bugs/login/web/BUG_login_1792569135_TC005.md) |
+| Bug | 1 file **đang mở** (12-11-2026): [`BUG_login_1794476046_TC028`](../../docs/bugs/login/web/BUG_login_1794476046_TC028.md) — Forgot Password lộ `Email not found` (REQ-39), 🔴 Critical P2. Bug `TC015` (015-b, sinh cùng ngày) và bug cũ `TC005` đều **đã bị xoá khỏi working tree** (không do agent) — **không** tự tạo lại, hỏi user | [`docs/bugs/README.md`](../../docs/bugs/README.md) |
 | RTM | 12-11-2026 · REQ 68/68 có TC · automation 0/83 · REQ đã kiểm chứng đủ 35/68 · 29 REQ chưa có bằng chứng chạy | [`traceability_matrix_login.md`](../../docs/traceability/login/traceability_matrix_login.md) — chỉ RTM module, **chưa** có file toàn hệ thống |
 
 ## Kết quả chạy

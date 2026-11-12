@@ -18,7 +18,7 @@ updated: 12-11-2026
 | Test case | 169 TC · 272 biến thể · 6 part · phủ 141/141 REQ · TC kế tiếp `CRM_CUS_TC_170` | [`TEST_CASES_CUSTOMERS_SUMMARY.md`](../../docs/testcases/customers/TEST_CASES_CUSTOMERS_SUMMARY.md) |
 | Tag | `@Skip` 14 · `@KnownBug` 10 · `@PersonalOnly` 1 (142) · `@TechCheck` 4 · `@NeedsVerify` 41 · `@Smoke` 19 (001→019) | index TC |
 | Checklist | Smoke 19 mục | `docs/checklists/customers/web/checklist_smoke_20261112.md` |
-| Bug | **Chưa có file `BUG_*`** nào cho CUS | — |
+| Bug | 2 file **đang mở** (12-11-2026): `TC042` (Company toàn khoảng trắng → KH rỗng, 🟠 Major P2 — REQ-31, user yêu cầu) · `TC044` (Company > 191 bị cắt âm thầm, 🟡 Minor P3 — REQ-32) | `docs/bugs/customers/web/` |
 
 ## ⚠️ Lịch sử mã REQ
 
@@ -41,7 +41,7 @@ updated: 12-11-2026
 
 ## Việc còn treo / cần biết
 
-- **Chưa mở bug** cho 19 FAIL; user dặn không sinh bug (12-11). Nếu sau này mở: bug phải trỏ TC ID + evidence trong `executions/`, `REQ-31` là cái user đã yêu cầu.
+- Đã mở bug cho `042`, `044` theo yêu cầu user (12-11); 17 FAIL còn lại **chưa** có bug — chỉ mở khi user yêu cầu. Nếu sau này mở: bug phải trỏ TC ID + evidence trong `executions/`, `REQ-31` là cái user đã yêu cầu.
 - `ASM-CUS-01`: xung đột REQ-103 (tab Files có nút `Choose from Google Drive`) ↔ ảnh không thấy nút — cần recon lại để sửa REQ-103.
 - Không tạo được nhóm KH riêng (Setup bị chặn) → dùng nhóm có sẵn `customer group b` và nhóm thứ hai bất kỳ, ghi tên vào báo cáo (`ASM-CUS-07`).
 - Ngoài phạm vi `CUS`: tab Contacts → `CONT`; 11 tab chứng từ → module chứng từ; Reminders → `PROF`; quản lý Customer Groups/Currency/Google API key → Setup (`AMB-SYS-01`).
