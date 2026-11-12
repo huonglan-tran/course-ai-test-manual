@@ -45,7 +45,9 @@ docs/
   bugs/           bug report
   checklists/     checklist smoke / regression
   traceability/   ma trận truy vết RTM
-prompts/, scripts/  prompt và công cụ xem tài liệu dùng trong quá trình làm
+memories/         ghi chú dự án: quyết định, lý do, bẫy đã gặp, quy ước đặt tên
+scripts/          trang web xem tài liệu offline (test case, kết quả chạy, bug, RTM)
 ```
 
 > Tài khoản đăng nhập để trong `.env` (không đưa lên git). Tài liệu không ghi mật khẩu thật.
+> Các file cấu hình AI Agent (`CLAUDE.md`, `prompts/`, `.claude/`, `plans/`) chỉ dùng trên máy, không đưa lên git.
