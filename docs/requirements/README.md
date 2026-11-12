@@ -24,7 +24,7 @@
 | # | Module | Prefix | Nền tảng | Trạng thái recon | Mức phủ tài liệu | Tài liệu | REQ đã dùng | Mã kế tiếp | AMB treo | Story | Cập nhật |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | Login · Forgot Password | `LOGIN` | Web ✅ | ✅ Đã có tài liệu | 🟨 Một phần (khảo sát UI + ticket `CRM-LOGIN-101`) | [`login/REQUIREMENTS_LOGIN_SUMMARY.md`](login/REQUIREMENTS_LOGIN_SUMMARY.md) | 01 → 68 | `REQ-LOGIN-69` | — (33/33 AMB đã chốt 22-10-2026) | 7 | 22-10-2026 |
-| 2 | Customers | `CUS` | Web ✅ | ✅ Đã có tài liệu | ⬜ Trắng (khảo sát UI, không có tài liệu) | [`customers/REQUIREMENTS_CUSTOMERS_SUMMARY.md`](customers/REQUIREMENTS_CUSTOMERS_SUMMARY.md) | 01 → 101 | `REQ-CUS-102` | 19 (8 🔴) | 8 | 04-11-2026 |
+| 2 | Customers | `CUS` | Web ✅ | ✅ Đã có tài liệu | ⬜ Trắng (khảo sát UI, không có tài liệu) | [`customers/REQUIREMENTS_CUSTOMERS_SUMMARY.md`](customers/REQUIREMENTS_CUSTOMERS_SUMMARY.md) | 01 → 141 | `REQ-CUS-142` | 1 🟡 (`AMB-CUS-28`) — 27/28 AMB đã chốt 11-11-2026 | 8 | 11-11-2026 |
 | 3 | Contacts | `CONT` | Web ⬜ | ⬜ Chưa khảo sát | ⬜ Trắng | — | — | `REQ-CONT-01` | — | — | 12-10-2026 |
 | 4 | Items | `ITEM` | Web ⬜ | ⬜ Chưa khảo sát | ⬜ Trắng | — | — | `REQ-ITEM-01` | — | — | 12-10-2026 |
 | 5 | Invoices | `INV` | Web ⬜ | ⬜ Chưa khảo sát | ⬜ Trắng | — | — | `REQ-INV-01` | — | — | 12-10-2026 |
@@ -68,26 +68,20 @@ Prefix **dành riêng**: `SYS` (AMB/RISK cấp hệ thống — không cấp cho
 | Module | 🟢 Đã kiểm chứng | 🟡 Một phần | 🔴 Deprecated | ⚪ Chưa implement | Tổng |
 |---|---|---|---|---|---|
 | `LOGIN` | 35 | 2 | 0 | 31 | 68 |
-| `CUS` | 84 | 0 | 0 | 17 | 101 |
-| **Tổng** | **119** | **2** | **0** | **48** | **169** |
+| `CUS` | 113 | 9 | 0 | 19 | 141 |
+| **Tổng** | **148** | **11** | **0** | **50** | **209** |
 
 *`LOGIN`: 31 REQ ⚪ là REQ **chưa kiểm chứng được** (thiếu tài khoản test · nằm ở tầng server · chốt từ câu trả lời AMB hoặc ticket, chưa chạy trên UI) theo skill mục 4.3.8. Riêng **REQ-LOGIN-51 → 68** là tính năng **chưa build** — Dev chưa triển khai ticket `CRM-LOGIN-101` lên demo (user xác nhận 22-10-2026); 13 REQ ⚪ còn lại đã có trên hệ thống, chỉ chưa kiểm chứng được. REQ 🟡 `REQ-LOGIN-39`: hành vi mong đợi đã đổi theo `AMB-LOGIN-03` — **hệ thống hiện chưa đáp ứng, chờ Dev sửa**. REQ 🟡 `REQ-LOGIN-46`: đổi từ "không giới hạn số lần sai" sang khoá tài khoản theo ticket `CRM-LOGIN-101` — **chưa triển khai**, demo vẫn không giới hạn số lần sai.*
 
-*`CUS`: 17 REQ ⚪ là chức năng **có trên hệ thống nhưng chưa kiểm chứng** — không được phép / không an toàn trên môi trường dùng chung (Import thật, gửi email, xoá KH có chứng từ, bulk chuyển nhóm) hoặc cần tài khoản/mật khẩu agent không nhập (xem mật khẩu Vault, visibility Vault). 5 REQ 🟢 mô tả **hành vi hiện tại bị nghi là lỗi** (REQ-CUS-20 · 21 · 67 · 71 · 99) — TC viết theo kết luận AMB tương ứng.*
+*`CUS` (khảo sát lại 11-11-2026, mã đánh lại từ 01 theo lựa chọn của user): 16 REQ ⚪ là chức năng **có trên hệ thống nhưng chưa kiểm chứng** — không được phép / không an toàn trên môi trường dùng chung (Import thật, Export/Download/PDF, gửi email, xoá KH có chứng từ, lưu bộ lọc dùng chung, tạo nhóm KH) hoặc cần thao tác agent không làm (nhập mật khẩu đăng nhập, tài khoản thứ hai, cổng khách hàng, Google API key); thêm 3 REQ ⚪ chốt từ câu trả lời AMB 11-11-2026, chưa chạy trên UI (REQ-CUS-139 → 141) — tổng 19. 9 REQ 🟡 (REQ-CUS-31 · 32 · 82 · 99 · 110 · 117 · 121 · 126 · 137): hành vi mong đợi đã đổi theo kết luận AMB 11-11-2026 — **hệ thống hiện chưa đáp ứng, ứng viên bug** (danh sách ở mục 6.3 của index `CUS`); REQ-CUS-31 user yêu cầu mở bug.*
 
 ## 3. Ambiguity 🔴 High còn treo
 
 | Mã | Nội dung | Chặn module | Cần ai trả lời |
 |---|---|---|---|
 | `AMB-SYS-01` | Tài khoản "Admin" trong `.env` bị chặn toàn bộ khu Setup (26 route) — xin tài khoản Admin đầy đủ để khảo sát cấu hình, Staff/Roles và kiểm chứng ma trận phân quyền | Setup (chưa cấp prefix) · phân quyền của **mọi** module · master data cho `CUS` `INV` `EST` `PROP` `CRN` `EXP` `SUB` `LEAD` `TKT` | PO / người quản trị môi trường |
-| `AMB-CUS-01` | Company chỉ gồm khoảng trắng vẫn tạo được KH tên rỗng — lỗi? | `CUS` — REQ-CUS-20 | PO |
-| `AMB-CUS-02` | Company > 191 ký tự bị cắt âm thầm — giới hạn và cách báo lỗi? | `CUS` — REQ-CUS-21 | PO / Dev |
-| `AMB-CUS-07` | Xoá KH đang có chứng từ: chặn hay xoá dây chuyền? | `CUS` — REQ-CUS-61 | PO |
-| `AMB-CUS-09` | Simulate Import không đánh dấu dòng thiếu cột bắt buộc — Import thật xử lý thế nào? | `CUS` — REQ-CUS-67 · 68 | PO / Dev |
-| `AMB-CUS-11` | Note trống vẫn được lưu — lỗi? | `CUS` — REQ-CUS-71 | PO |
-| `AMB-CUS-12` | Map lưu được toạ độ không hợp lệ (`abc` / `999`) — có validate khoảng? | `CUS` — REQ-CUS-99 | PO / Dev |
-| `AMB-CUS-15` | Xem mật khẩu Vault cần nhập mật khẩu đăng nhập — agent không nhập; user tự kiểm? | `CUS` — REQ-CUS-94 | User (QA) |
-| `AMB-CUS-18` | Kiểm visibility Vault cần 2 staff đăng nhập song song | `CUS` — REQ-CUS-95 | User (QA) |
+
+*`CUS`: không còn AMB 🔴 treo. User chốt `AMB-CUS-01` → `27` ngày 11-11-2026 (01 · 02 trả lời trực tiếp, còn lại theo Assumption tạm; 12 · 23 · 25 ⏭️). Còn treo `AMB-CUS-28` 🟡 — nguyên văn thông báo chặn của REQ-CUS-82 · 117 · 126 · 137.*
 
 *`LOGIN`: không còn AMB 🔴 treo. `AMB-LOGIN-01` → `21` chốt 19-10-2026; ticket `CRM-LOGIN-101` mở `AMB-LOGIN-22` → `30`, user chốt toàn bộ `AMB-LOGIN-22` → `32` ngày 22-10-2026 (7 mã 🟡 theo Assumption tạm) và `AMB-LOGIN-33` — **module không còn AMB treo**.*
 
@@ -145,3 +139,5 @@ Thư mục module = tên module chữ thường không dấu (VD `login`, `custo
 | 22-10-2026 | `LOGIN`: user chốt 7 AMB 🟡 theo Assumption tạm → thêm REQ-LOGIN-59 → 68 ⚪ chưa build (mã kế tiếp `REQ-LOGIN-69`) · TC khoá đổi sang tài khoản Project Manager (`EMAIL_PM` / `PASSWORD_PM`), không dùng Admin · mở `AMB-LOGIN-33` 🟡 | User trả lời AMB |
 | 22-10-2026 | `LOGIN`: `AMB-LOGIN-33` ✅ — tài khoản Project Manager cùng role Admin, thuộc tính "Role của hệ thống" giữ nguyên · module không còn AMB treo | User trả lời AMB |
 | 04-11-2026 | `CUS` → ✅ Đã có tài liệu: index `customers/REQUIREMENTS_CUSTOMERS_SUMMARY.md` + `customers/web/` (8 file Story — 101 REQ vượt ngưỡng 80) — REQ-CUS-01 → 101, mã kế tiếp `REQ-CUS-102` · 19 AMB (8 🔴 vào mục 3) · 9 RISK. Danh mục khớp với thư mục thực tế | `/generate-requirements-from-website CUSTOMER` |
+| 11-11-2026 | `CUS` **khảo sát lại từ đầu** (user chọn làm lại, thư mục `customers/` bản 04-11-2026 đã bị gỡ khỏi máy, còn trong git) — mã **đánh lại từ `REQ-CUS-01`** theo lựa chọn của user: REQ-CUS-01 → 138 (mã kế tiếp `REQ-CUS-139`) · 27 AMB (9 🔴 vào mục 3, thay bộ 🔴 cũ) · 9 RISK · 8 Story · 22 ảnh evidence. ⚠️ Cùng mã giữa bản 04-11 và bản này **không** cùng nghĩa — TC/automation theo bản cũ phải map lại. Đối chiếu danh mục: khớp thư mục thực tế | `/generate-requirements-from-website` (khảo sát lại) |
+| 11-11-2026 | `CUS`: user chốt `AMB-CUS-01` → `27` (01 · 02 trả lời trực tiếp, còn lại theo Assumption tạm) → 9 REQ 🟡 đổi sang hành vi mong đợi, hệ thống chưa đạt (REQ-CUS-31 · 32 · 82 · 99 · 110 · 117 · 121 · 126 · 137 — ứng viên bug, REQ-31 user yêu cầu mở bug) · thêm REQ-CUS-139 → 141 ⚪ (mã kế tiếp `REQ-CUS-142`) · gỡ 9 AMB 🔴 khỏi mục 3 · mở `AMB-CUS-28` 🟡 | User trả lời AMB |

@@ -5,6 +5,20 @@
 
 ---
 
+## 📌 BẮT BUỘC TRƯỚC MỌI TÁC VỤ — Đọc bộ nhớ dự án (`memories/`)
+
+Khi nhận **bất kỳ** yêu cầu nào (sinh requirements/TC, chạy test, tạo bug, viết automation, báo cáo…), thực hiện **đúng thứ tự**:
+
+1. Đọc `CLAUDE.md` (file này) — luật chung.
+2. Đọc **[`memories/MEMORIES.md`](memories/MEMORIES.md)** — bản đồ bộ nhớ của repo.
+3. Tra bảng *"Tra theo tác vụ"* trong `MEMORIES.md`, đọc **đúng** các file bộ nhớ ứng với yêu cầu (luôn đọc 3 file nền: `he-thong/boi-canh-perfex-crm.md` · `quy-uoc/cach-lam-viec-voi-user.md` · `quy-uoc/dat-ten-ma-dinh-danh-cau-truc.md`; cộng file của module đang làm). **Không** đọc cả thư mục.
+4. Rồi mới đọc `docs/` theo chuỗi 3 tầng ở mục 6b.
+5. Làm xong, nếu có quyết định mới của user / phát hiện mới / trạng thái module đổi → **cập nhật bộ nhớ** theo mục 4 của `MEMORIES.md` (một dòng ở `lich-su/nhat-ky-quyet-dinh.md` + file chủ đề + file module; file mới phải ghi vào bản đồ).
+
+> `memories/` chứa **quyết định của user, lý do, bẫy đã gặp** — thứ không suy ra được từ tài liệu. Số liệu (REQ, TC, mã kế tiếp) lấy từ `docs/`; hai nơi lệch nhau thì **tin `docs/`** rồi sửa bộ nhớ. 🔒 Không ghi mật khẩu / token / dữ liệu cá nhân vào `memories/` — thư mục này được commit.
+
+---
+
 ## Được phép lấy thông tin tài khoản mật khẩu từ .env để nhập liệu trong quá trình chạy.
 Tôi cho phép Claude đọc file `.env` trong root project để lấy thông tin tài khoản, mật khẩu, token, cookie xác thực, session id, API key… phục vụ cho việc chạy test automation. File `.env` **không** được commit lên git (đã `.gitignore`) — Claude chỉ đọc để dùng, không ghi lại hay hiển thị ra log.
 
@@ -424,7 +438,7 @@ Dự án lớn dần lên hàng chục module — **agent KHÔNG đọc hết `d
 **Câu mở phiên chuẩn** (dán vào chat khi bắt đầu phiên mới trên dự án đã có tài liệu):
 
 ```
-Đọc docs/requirements/README.md và docs/requirements/_discovery/system_map.md để nắm bối cảnh dự án. Liệt kê: module đã có tài liệu / chưa recon / còn ambiguity 🔴 treo. Chưa cần mở file module nào.
+Đọc memories/MEMORIES.md (bản đồ bộ nhớ) rồi đọc 3 file nền nó chỉ định, sau đó đọc docs/requirements/README.md và docs/requirements/_discovery/system_map.md để nắm bối cảnh dự án. Liệt kê: module đã có tài liệu / chưa recon / còn ambiguity 🔴 treo. Chưa cần mở file module nào.
 ```
 
 Agent nhận câu này thì **chỉ** đọc 2 file tầng 1–2 rồi báo cáo, **không** tự động đi recon hay sinh tài liệu.

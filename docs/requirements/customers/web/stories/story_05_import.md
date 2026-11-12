@@ -1,45 +1,46 @@
 # STORY-CUS-05 — Import Customers
 
-> ← [Index module `REQUIREMENTS_CUSTOMERS_SUMMARY.md`](../../REQUIREMENTS_CUSTOMERS_SUMMARY.md) · [File nền tảng Web](../requirements_customers_web.md)
->
-> Phạm vi: `REQ-CUS-62` → `REQ-CUS-68` (7 REQ) · AMB liên quan: `AMB-CUS-09` · `10` · `19` · RISK liên quan: `RISK-CUS-05`
+> ← [Index module](../../REQUIREMENTS_CUSTOMERS_SUMMARY.md) · [File web](../requirements_customers_web.md) · REQ `REQ-CUS-83` → `95` · `141` (14 REQ). AMB/RISK, phân quyền, trạng thái: xem index.
 
-**Route:** `/admin/clients/import` (tiêu đề tab `Import`) · Form `#import_form` → `POST /admin/clients/import`.
+**User story:** Là staff, tôi muốn nhập hàng loạt khách hàng (kèm contact chính) từ file CSV, được chạy thử (Simulate) trước khi nhập thật.
 
 ## 1. Yêu cầu chức năng
 
 | REQ ID | Tên yêu cầu | Mô tả | Acceptance Criteria | Trạng thái | Cập nhật lần cuối | Nguồn |
 |---|---|---|---|---|---|---|
-| REQ-CUS-62 | Trang Import hiển thị 4 hướng dẫn định dạng tệp | | Khối hướng dẫn đầu trang **chứa** đủ 4 câu nguyên văn: `1. Your CSV data should be in the format below. The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is UTF-8 to avoid unnecessary encoding problems.` · `2. If the column you are trying to import is date make sure that is formatted in format Y-m-d (<YYYY-MM-DD hôm nay>).` · `3. Make sure you configure the default contact permission in Setup->Settings->Customers to get the best results like auto assigning contact permissions and email notification settings based on the permission.` · `4. Duplicate email rows won't be imported.` — phần ngày trong câu 2 là **ngày hiện tại**, không assert khớp tuyệt đối | 🟢 | — | UI thực tế |
-| REQ-CUS-63 | Bảng mẫu có 27 cột, 4 cột bắt buộc | Định nghĩa cột CSV | Bảng mẫu có 27 tiêu đề theo thứ tự: `Firstname` · `Lastname` · `Email` · `Contact phonenumber` · `Position` (5 cột kèm chú thích `Contact field`) · `Company` · `Vat` · `Phonenumber` · `Country` · `City` · `Zip` · `State` · `Address` · `Website` · `Billing street` · `Billing city` · `Billing state` · `Billing zip` · `Billing country` · `Shipping street` · `Shipping city` · `Shipping state` · `Shipping zip` · `Shipping country` · `Longitude` · `Latitude` · `Stripe id`. Có dấu `*`: `Firstname` · `Lastname` · `Email` · `Company` | 🟢 | — | UI thực tế |
-| REQ-CUS-64 | Nút Download Sample tải tệp CSV mẫu | | Nút `Download Sample` (`type=submit`) có trên trang. Chưa bấm — chưa kiểm tệp tải về | ⚪ | — | UI thực tế — chưa kiểm chứng |
-| REQ-CUS-65 | Không chọn tệp thì không chạy Import/Simulate | | Không chọn tệp, bấm `Simulate Import` → không gửi `POST`; ô `* Choose CSV File` báo `p#file_csv-error` nguyên văn `This field is required.` | 🟢 | — | Kiểm chứng thực tế |
-| REQ-CUS-66 | Simulate Import hiển thị dữ liệu đọc được mà không tạo KH | Xem trước trước khi import | Chọn CSV 2 dòng (Company `auto_cus_imp_<ts>`…) → `Simulate Import` → trang tải lại, có tiêu đề `Simulation Data` + chú thích `Max 100 rows are shown` + câu `If you are satisfied with the results upload the file again and click import.`; bảng hiển thị đúng 2 dòng; ô chọn tệp trống lại. Tìm Company `auto_cus_imp_<ts>` ở danh sách KH → **không** có bản ghi | 🟢 | — | Kiểm chứng thực tế |
-| REQ-CUS-67 | Simulate Import không đánh dấu dòng thiếu cột bắt buộc | Hành vi **hiện tại** — nghi thiếu | Dòng CSV để trống `Email` (cột có `*`) vẫn hiển thị như dòng hợp lệ: không class/màu/biểu tượng lỗi trên `<tr>` hay `<td>`. TC viết theo kết luận `AMB-CUS-09` 🔴 | 🟢 | — | Kiểm chứng thực tế |
-| REQ-CUS-68 | Import tạo KH và contact từ tệp CSV | | Không chạy Import thật — tạo contact và có thể gửi email trên môi trường dùng chung (`AMB-CUS-10`) | ⚪ | — | Chưa kiểm chứng |
+| REQ-CUS-83 | Trang Import có 4 hướng dẫn | `/admin/clients/import`, tiêu đề tab `Import` | Khung `alert-info` có 4 mục, mục 4 tô đỏ. Nội dung **chứa**: (1) `The first line of your CSV file should be the column headers as in the table example. Also make sure that your file is UTF-8` · (2) `formatted in format Y-m-d (<ngày hôm nay YYYY-MM-DD>)` — phần ngày là **động** · (3) `Setup->Settings->Customers` · (4) `Duplicate email rows won't be imported.` | 🟢 | — | Kiểm chứng thực tế |
+| REQ-CUS-84 | Bảng mẫu 27 cột, 4 cột bắt buộc | — | Bảng mẫu có 27 cột theo thứ tự: `Firstname` · `Lastname` · `Email` · `Contact phonenumber` · `Position` (5 cột mang nhãn phụ `Contact field`) · `Company` · `Vat` · `Phonenumber` · `Country` · `City` · `Zip` · `State` · `Address` · `Website` · `Billing street/city/state/zip/country` · `Shipping street/city/state/zip/country` · `Longitude` · `Latitude` · `Stripe id`. Có dấu `*`: Firstname · Lastname · Email · Company. Dòng mẫu `Sample Data`; email mẫu dạng `<hex>@example.com` **đổi mỗi lần tải trang** | 🟢 | — | Kiểm chứng thực tế (DOM) |
+| REQ-CUS-85 | Form Import | — | `* Choose CSV File` (`input[type=file]#file_csv`, không giới hạn `accept`) · `Groups` (multi-select + nút `+`) · `Default password for all contacts` (text) · nút `Import` · `Simulate Import`; góc phải nút `Download Sample` | 🟢 | — | Kiểm chứng thực tế (DOM) |
+| REQ-CUS-86 | Chưa chọn file thì báo bắt buộc | — | Không chọn file → `Simulate Import` → `This field is required.` (`#file_csv-error`), không gửi request | 🟢 | — | Kiểm chứng thực tế |
+| REQ-CUS-87 | File CSV rỗng báo không đủ dòng | — | Chọn file 0 byte → `Simulate Import` → toast **chứa** `rows for importing` (nguyên văn hiện tại `Not enought rows for importing` — lỗi chính tả "enought", ứng viên bug nhẹ; TC **chỉ** assert phần chứa để không đỏ khi Dev sửa — `AMB-CUS-13` ✅); không hiện bảng Simulation Data | 🟢 | 11-11-2026 · ✏️ biên tập | Kiểm chứng thực tế (DOM — toast tự tắt, không kịp chụp) |
+| REQ-CUS-88 | Simulate hiển thị dữ liệu sẽ nhập | — | File CSV đúng tiêu đề, 5 dòng → `Simulate Import` → mục `Simulation Data` + chú thích `Max 100 rows are shown` + dòng `If you are satisfied with the results upload the file again and click import.` + bảng 27 cột với đủ 5 dòng | 🟢 | — | Kiểm chứng thực tế |
+| REQ-CUS-89 | Simulate không tạo khách hàng | Khẳng định phủ định — phép thử trạng thái sạch | (1) Company trong CSV mang tiền tố `auto_imp_<YYYYMMDD>` chưa từng dùng → (2) Simulate → (3) danh sách KH tìm `auto_imp_` → `0 entries` | 🟢 | — | Kiểm chứng thực tế |
+| REQ-CUS-90 | Simulate không đánh dấu dòng lỗi | Hành vi hiện tại — Simulate chỉ hiển thị, việc lọc dòng lỗi do Import thật làm (REQ-CUS-141) | 5 dòng: hợp lệ · thiếu Email · trùng Email với dòng 1 · Email `not-an-email` · thiếu Company → bảng Simulation Data hiện cả 5 dòng như nhau, không màu/nhãn/thông báo lỗi (`AMB-CUS-11` ✅) | 🟢 | 11-11-2026 · ✏️ biên tập | Kiểm chứng thực tế |
+| REQ-CUS-91 | Simulate hiển thị Country = 0 khi để trống | — | Cột Country của CSV trống → cột Country trong Simulation Data hiện `0` — chỉ là cách hiển thị, không phải giá trị sẽ gán (`AMB-CUS-14` ✅) | 🟢 | 11-11-2026 · ✏️ biên tập | Kiểm chứng thực tế |
+| REQ-CUS-92 | Sau Simulate phải chọn lại file | — | Sau khi trang Simulate tải lại, ô `Choose CSV File` trống (`files.length = 0`, `No file chosen`) — đúng với hướng dẫn "upload the file again" | 🟢 | — | Kiểm chứng thực tế |
+| REQ-CUS-93 | Import thật tạo KH và contact chính | Tác tạo chính của Story | CSV hợp lệ → `Import` → mỗi dòng tạo 1 KH + 1 contact chính, gán vào Groups đã chọn, contact nhận mật khẩu mặc định nếu có nhập. **Chưa kiểm** — Import thật trên môi trường dùng chung chưa được phép, có thể gửi email (`AMB-CUS-12` ⏭️) | ⚪ | 11-11-2026 · ✏️ biên tập | Chưa kiểm chứng |
+| REQ-CUS-94 | Dòng trùng email không được nhập | Theo hướng dẫn mục 4 (REQ-CUS-83) | CSV có 2 dòng cùng Email → Import → chỉ 1 dòng được nhập. **Chưa kiểm** — phụ thuộc REQ-CUS-93 | ⚪ | — | Chưa kiểm chứng |
+| REQ-CUS-95 | Download Sample tải file CSV mẫu | — | `Download Sample` → tải 1 file CSV có dòng tiêu đề đúng 27 cột của REQ-CUS-84. **Chưa kiểm** — tải tệp chưa được phép (`AMB-CUS-12` ⏭️) | ⚪ | 11-11-2026 · ✏️ biên tập | Chưa kiểm chứng |
+| REQ-CUS-141 | Import thật bỏ qua dòng lỗi và báo số dòng bị bỏ | Bổ sung REQ-CUS-94 (trùng email) cho các loại dòng lỗi khác | CSV 5 dòng như REQ-CUS-90 (hợp lệ · thiếu Email · trùng Email với dòng 1 · Email sai định dạng · thiếu Company) → `Import` → chỉ dòng hợp lệ tạo KH; 4 dòng lỗi **không** tạo KH nào; sau Import có thông báo cho biết **số dòng bị bỏ qua** (nguyên văn chưa biết). **Chưa kiểm** — Import thật chưa được phép (`AMB-CUS-12` ⏭️) | ⚪ | — | User chốt `AMB-CUS-11` theo Assumption tạm (11-11-2026) — chưa kiểm chứng UI |
 
 ## 2. Đặc tả trường dữ liệu
 
-| Field (Label) | `name` | Loại UI | Required | Ràng buộc / mặc định | REQ liên quan | Ghi chú |
-|---|---|---|---|---|---|---|
-| Choose CSV File | `file_csv` | file | ✅ (`*`, JS) | `accept` **rỗng** — trình chọn tệp không lọc đuôi `.csv` | 65 · 66 | Chưa thử tệp không phải CSV |
-| Groups | `groups_in[]` | multi-select | — | Không chọn | — | Gán nhóm cho KH import |
-| Default password for all contacts | `default_pass_all` | **text** | — | Rỗng | — | Mật khẩu hiển thị rõ khi gõ — `RISK-CUS-05` |
-| Nút Import / Simulate Import | — | `button[type=button]` | — | Class `btn-import-submit` (Simulate thêm class `simulate`) | 65 · 66 | Submit bằng JS |
+| Field | Loại UI · `name` | Required | Ràng buộc | REQ |
+|---|---|---|---|---|
+| Choose CSV File | file · `file_csv` | ✅ (client) | Không đặt `accept`; file rỗng bị từ chối ở server | 85 → 87 |
+| Groups | multi-select · `groups_in[]` | — | Cùng danh sách nhóm KH | 85 · 93 |
+| Default password for all contacts | text · `default_pass_all` | — | Ô `type=text` (mật khẩu hiện rõ khi gõ) | 85 · 93 |
+| *(ẩn)* | `download_sample` · `clients_import` | — | Cờ phân biệt hành động | — |
 
-## 3. Validation & thông báo
+## 3. Validation messages
 
-| REQ ID | Rule / Trigger | Thông báo (nguyên văn) |
+| REQ ID | Rule / Trigger | Thông báo nguyên văn |
 |---|---|---|
-| REQ-CUS-65 | Chưa chọn tệp | `This field is required.` |
-| REQ-CUS-66 | Simulate xong | `Simulation Data` · `Max 100 rows are shown` · `If you are satisfied with the results upload the file again and click import.` |
-| REQ-CUS-67 | Dòng thiếu Email | *(không có thông báo)* |
+| REQ-CUS-86 | Chưa chọn file | `This field is required.` |
+| REQ-CUS-87 | File CSV rỗng | `Not enought rows for importing` (hiện trạng — sai chính tả, `AMB-CUS-13`; TC assert chứa `rows for importing`) |
 
-> Quan sát phụ: cột `Country` của bảng Simulation hiển thị `0` khi ô Country trong CSV để trống (`AMB-CUS-19`).
+## 4. Luồng chính
 
-## 4. Luồng xử lý
+`Import Customers` → chọn CSV → `Simulate Import` → xem bảng → chọn lại file → `Import`.
 
-```
-Import Customers ─→ chọn CSV ─→ Simulate Import ─→ bảng Simulation Data (không ghi DB)
-                              └→ Import ─→ (chưa kiểm — AMB-CUS-10)
-```
+> 📎 File CSV dùng để khảo sát (5 dòng — hợp lệ, thiếu email, trùng email, email sai, thiếu company) lưu ngoài repo, chỉ chứa dữ liệu giả `auto_imp_*_20261111`.

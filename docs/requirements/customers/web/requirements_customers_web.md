@@ -1,73 +1,95 @@
 # Requirements — Customers (`CUS`) · Web
 
-> ← [Index module `REQUIREMENTS_CUSTOMERS_SUMMARY.md`](../REQUIREMENTS_CUSTOMERS_SUMMARY.md) — phân quyền, trạng thái, AMB/RISK, Story, Nhật ký nằm ở index.
->
-> File này chứa **metadata khảo sát Web**, bản đồ file Story và Danh mục Evidence. REQ chi tiết nằm trong 8 file `stories/` (101 REQ vượt ngưỡng 80 — skill mục 5.1): `REQ-CUS-01` → `REQ-CUS-101`.
+> ← [Index module](../REQUIREMENTS_CUSTOMERS_SUMMARY.md) · File nền tảng Web. Module vượt ngưỡng 80 REQ nên **dòng REQ nằm ở các file Story** trong [`stories/`](stories/); file này giữ metadata khảo sát, tầng network, yêu cầu phi chức năng và Danh mục Evidence.
 
-## Bảng metadata khảo sát
+## 1. Metadata khảo sát
 
 | Thuộc tính | Giá trị |
 |---|---|
-| **Nền tảng** | Web — khu Admin |
-| **Route** | Danh sách `/admin/clients` · tạo `/admin/clients/client` · hồ sơ `/admin/clients/client/<id>?group=<tab>` · import `/admin/clients/import` |
-| **Ngày khảo sát** | 04-11-2026 |
-| **Trình duyệt khảo sát** | Google Chrome (Playwright MCP, headed), viewport `1600×780` (đo bằng `innerWidth × innerHeight`, cửa sổ `1618×915` — không bị cắt). Mọi AC dựa trên hộp thoại / chuỗi mặc định của trình duyệt (`confirm`, `beforeunload`, autofill) **chỉ đúng với trình duyệt này** |
-| **Tài khoản** | Staff role Admin (`.env` — `EMAIL_ADMIN`). **Người dùng tự đăng nhập**, agent không nhập mật khẩu |
-| **Dữ liệu test** | Môi trường dùng chung — agent chỉ ghi/xoá bản ghi **do phiên này tạo**: 4 KH (`auto_cus_<ts>` · `auto_cus_sac_<ts>` · `auto_cus_long_<ts>_…` · 1 KH Company chỉ khoảng trắng), 2 note, 1 tệp ảnh, 1 vault entry (giá trị giả `auto_vault_<ts>`), 1 lần gán/gỡ admin. **Đã dọn hết**: 4/4 KH đã xoá (Summary về đúng số ban đầu), note/tệp/vault xoá theo KH. Simulate Import không ghi dữ liệu |
-| **Tầng network** | Quan sát thụ động request do UI phát sinh (method · status · `Location` · tên field payload · body JSON nhỏ). **Không** gọi API trực tiếp. Không lưu body danh sách KH vào repo (chứa dữ liệu cá nhân) — tệp tạm đã xoá |
-| **Bản đồ phủ tài liệu** | Không có tài liệu — toàn bộ REQ sinh từ khảo sát UI thực tế (user xác nhận 04-11-2026) |
-| **Ngoài phạm vi lượt này** | Tab Contacts (`CONT`) · tab chứng từ (module chứng từ — `CUS` chỉ giữ REQ lọc theo KH) · tab Reminders (`PROF`) · cổng KH |
+| **Ngày khảo sát** | 11-11-2026 |
+| **Trình duyệt khảo sát** | Google Chrome 157 (Playwright MCP, headed), viewport đo được `1600×750` (cửa sổ `1617×886` — không bị cắt). Mọi AC dựa trên hộp thoại `confirm()` gốc hoặc hành vi tự điền của trình duyệt **chỉ đúng với trình duyệt này** |
+| **Tài khoản** | Staff role Admin — `EMAIL_ADMIN` trong `.env`. User tự đăng nhập trên cửa sổ trình duyệt (agent không nhập mật khẩu) |
+| **Môi trường** | Demo dùng chung, dữ liệu biến động (`RISK-SYS-01`). Mọi bản ghi do lượt khảo sát tạo ra mang tên `auto_cus_*_20261111_*` và **đã dọn** (xem mục 5) |
+| **Tầng network** | Quan sát thụ động request do UI phát sinh (mục 2) — **không** gọi API trực tiếp |
+| **Tài liệu đầu vào** | Không có — toàn bộ REQ sinh từ khảo sát UI thực tế |
 
-## Bản đồ file Story
+### 1.1. Bản đồ phủ tài liệu
 
-| Story | File | REQ | Số REQ |
+Không có tài liệu — toàn bộ REQ sinh từ khảo sát UI thực tế.
+
+## 2. Tầng network quan sát được
+
+| Request | Phát sinh khi | Dữ kiện rút ra | REQ |
 |---|---|---|---|
-| STORY-CUS-01 | [stories/story_01_danh_sach_bo_loc.md](stories/story_01_danh_sach_bo_loc.md) — Danh sách, tìm kiếm & bộ lọc | 01 → 16 | 16 |
-| STORY-CUS-02 | [stories/story_02_tao_khach_hang.md](stories/story_02_tao_khach_hang.md) — Tạo khách hàng | 17 → 37 | 21 |
-| STORY-CUS-03 | [stories/story_03_ho_so_sua_customer_admins.md](stories/story_03_ho_so_sua_customer_admins.md) — Hồ sơ, sửa & Customer Admins | 38 → 52 | 15 |
-| STORY-CUS-04 | [stories/story_04_active_bulk_xoa.md](stories/story_04_active_bulk_xoa.md) — Active, Bulk Actions & xoá | 53 → 61 | 9 |
-| STORY-CUS-05 | [stories/story_05_import.md](stories/story_05_import.md) — Import Customers | 62 → 68 | 7 |
-| STORY-CUS-06 | [stories/story_06_notes_files.md](stories/story_06_notes_files.md) — Notes & Files | 69 → 79 | 11 |
-| STORY-CUS-07 | [stories/story_07_statement.md](stories/story_07_statement.md) — Statement | 80 → 87 | 8 |
-| STORY-CUS-08 | [stories/story_08_vault_map.md](stories/story_08_vault_map.md) — Vault & Map | 88 → 101 | 14 |
+| `POST /admin/clients/table` → 200 | Nạp/tìm/lọc/sắp xếp danh sách | DataTables phía server: `order[0][column]=2&dir=asc` (Company tăng dần) · `length=25` · `filters[match_type]=or` · `filters[rules][i][id\|value\|operator\|type]` (VD `id=active, value=0, type=BooleanRule`) | 08 · 09 · 25 |
+| `POST /admin/clients/check_duplicate_customer_name` → 200 | Rời ô Company trên form tạo | Body phản hồi `{"exists":true,"message":"It looks that a customer with name <b>…</b> already exists, …"}` | 33 → 35 |
+| `POST /admin/clients/client` (form) | Save / Save and create contact | Chuyển tới `/admin/clients/client/<id>` hoặc `…?group=contacts&new_contact=true` | 48 · 49 |
+| `GET /admin/clients/change_client_status/<id>/0` → 200 | Tắt switch Active ở danh sách | Không có toast | 66 |
+| `GET /admin/clients/mark_as_active/<id>` | Link `Mark as active` trên banner | — | 68 |
+| `GET /admin/clients/delete/<id>` | Delete (sau confirm) | Chuyển về `/admin/clients` + toast | 71 |
+| `POST /admin/clients/bulk_action` → 200 | Confirm ở Bulk Actions | Toast `Total customers deleted: <n>` khi Mass Delete | 78 · 79 |
+| `POST /admin/clients/assign_admins/<id>` · `GET /admin/clients/delete_customer_admin/<id>/<staff_id>` | Gán/gỡ Customer Admin | Chuyển tới `…?tab=customer_admins` | 63 · 64 |
+| `POST /admin/clients/group` | Save modal Add New Customer Group | *Không submit thật — chỉ trigger validation client* | 41 · 42 |
+| `POST /admin/clients/import` (form) | Simulate Import / Import | Simulate trả lại trang có bảng Simulation Data | 86 → 92 |
+| `POST /admin/misc/add_note/<id>/customer` · `POST /admin/misc/edit_note/<note_id>` · `GET /admin/misc/delete_note/<note_id>` | Thêm/sửa/xoá note | — | 97 · 101 · 102 |
+| `POST /admin/clients/upload_attachment/<id>` (Dropzone, param `file`) · `GET /admin/misc/toggle_file_visibility/<file_id>/1` · `GET /admin/clients/delete_attachment/<id>/<file_id>` | Upload / bật hiển thị / xoá tệp | — | 106 · 107 · 112 |
+| `GET /admin/clients/statement?customer_id=<id>&from=<DD-MM-YYYY>&to=<DD-MM-YYYY>` → 200 | Đổi khoảng thời gian sao kê | Nạp lại nội dung sao kê bằng AJAX | 115 · 117 |
+| `POST /admin/clients/send_statement?customer_id=<id>&from=…&to=…` | Send ở modal Account Summary | Toast `Problem while sending the statement` khi không chọn người nhận | 121 |
+| `POST /admin/clients/vault_entry_create/<id>` · `POST /admin/clients/vault_entry_update/<entry_id>` · `GET /admin/clients/vault_entry_delete/<entry_id>` | Tạo/sửa/xoá vault entry | — | 127 · 130 · 131 |
+| `POST /admin/clients/vault_encrypt_password` | Confirm ở modal View Password | *Không submit thật* | 132 · 133 |
+| `POST /admin/clients/save_longitude_and_latitude/<id>` → 200 | Save toạ độ Map | Tải lại trang | 136 · 137 |
+| `POST /admin/misc/get_relation_data` → 200 | Gõ tìm KH trong ô Customer của form Invoice | KH Inactive không có trong kết quả | 69 |
 
-**Tổng: 16 + 21 + 15 + 9 + 7 + 11 + 8 + 14 = 101 ✔**
+**Không phát hiện** response 4xx nào trong suốt lượt khảo sát — mọi validation quan sát được đều ở tầng client (jQuery validate) hoặc server trả 200 kèm toast.
 
-## Yêu cầu phi chức năng quan sát được (Web)
+## 3. Yêu cầu phi chức năng (quan sát được)
 
-| Hạng mục | Quan sát | Ghi chú |
+| Mã | Nội dung | Căn cứ |
 |---|---|---|
-| Phân trang & tìm kiếm phía máy chủ | Danh sách KH, Notes, Files, Customer Admins dùng DataTables; danh sách KH tải qua `POST /admin/clients/table` | Danh sách ~2.900 KH vẫn tải từng trang — không đo thời gian phản hồi |
-| Định dạng ngày | Mọi ngày giờ hiển thị `DD-MM-YYYY` / `DD-MM-YYYY HH:mm:ss`; tham số ngày của Statement cùng định dạng | Theo cấu hình hệ thống (Setup bị chặn — `AMB-SYS-01`) |
-| Bảo vệ CSRF | Mọi form có `csrf_token_name` (`<32 ký tự hex>`); thao tác bật/tắt qua `GET` mang token trên query string | `RISK-CUS-03` |
-| Thông báo | Thành công/thất bại hiển thị bằng thông báo nổi góc phải (`alert_float`), tự biến mất sau vài giây — chụp ảnh dễ hụt | TC nên assert bằng locator thông báo ngay sau thao tác |
-| Bảo vệ dữ liệu nhạy cảm | Mật khẩu Vault không có trong HTML; xem lại phải nhập mật khẩu đăng nhập | REQ-CUS-92 · 93 |
-| Responsive | Chỉ khảo sát viewport `1600×780` — chưa kiểm viewport nhỏ | |
+| NFR-01 | Danh sách KH phân trang phía server (DataTables) — trang vẫn dùng được với ~2.900 bản ghi, page size tối đa `All` | `POST /admin/clients/table` · REQ-CUS-09 |
+| NFR-02 | Mọi thao tác xoá dùng hộp xác nhận `confirm()` gốc của trình duyệt (`RISK-CUS-06`) | REQ-CUS-70 · 77 |
+| NFR-03 | Mật khẩu Vault không hiển thị dạng rõ; xem phải nhập lại mật khẩu đăng nhập | REQ-CUS-128 · 132 |
+| NFR-04 | Giao diện theo ngôn ngữ người dùng — 25 ngôn ngữ (`RISK-SYS-03`); khảo sát ở tiếng Anh | Bản đồ hệ thống |
 
-## Danh mục Evidence
+## 4. Danh mục Evidence
 
-> Ảnh chụp 04-11-2026 bằng Playwright MCP, **đã mở lại xác nhận từng ảnh**. Chỉ chụp màn hình chứa **dữ liệu do agent tạo** (`auto_cus_…`); ảnh danh sách chụp sau khi lọc chỉ còn KH tự tạo — không có tên/email/điện thoại của KH thật. 3 ảnh chụp hụt trạng thái đã **loại** (Company báo lỗi bị cuộn khỏi khung · modal contact đang mờ dần và lộ email đăng nhập do autofill · menu Export chưa kịp hiện) — các REQ tương ứng dựa trên số liệu đọc DOM ghi trong AC. Thông báo nổi của Simulate/Export/Files không có ảnh vì tự tắt.
+> 22 ảnh, chụp 11-11-2026, **đã mở lại xác nhận từng ảnh**. Ảnh danh sách chỉ chụp khi bảng đã lọc về bản ghi do test tạo hoặc về rỗng — không kéo dữ liệu KH của người khác vào repo. Ảnh `_viewport` = đối tượng nằm trọn trong viewport; `_fullpage` = form dài.
 
-| Tệp | Màn hình | Trạng thái | REQ |
+| Ảnh | Màn hình | Trạng thái | REQ làm bằng chứng |
 |---|---|---|---|
-| [evidence/customers_list_search_own_record_inactive_viewport.png](evidence/customers_list_search_own_record_inactive_viewport.png) | Danh sách KH | Thanh công cụ · Summary 6 bộ đếm · 9 cột · tìm theo tên KH tự tạo → 1 dòng · switch Active đã tắt · row options `View` / `Contacts` / `Delete` | 01 · 02 · 03 · 05 · 06 · 07 · 08 · 53 |
-| [evidence/customer_new_form_details_default_fullpage.png](evidence/customer_new_form_details_default_fullpage.png) | Form tạo — Customer Details | Mặc định, Company đang focus | 17 · 18 · 27 · 29 · 30 · 31 |
-| [evidence/customer_new_form_billing_shipping_copied_fullpage.png](evidence/customer_new_form_billing_shipping_copied_fullpage.png) | Form tạo — Billing & Shipping | Sau `Same as Customer Info` và `Copy Billing Address` | 32 · 33 |
-| [evidence/customer_new_form_duplicate_name_info_viewport.png](evidence/customer_new_form_duplicate_name_info_viewport.png) | Form tạo | Cảnh báo trùng tên (tên KH tự tạo) | 22 |
-| [evidence/customer_group_modal_required_viewport.png](evidence/customer_group_modal_required_viewport.png) | Modal Add New Customer Group | Sau Save khi trống | 28 |
-| [evidence/customer_profile_after_create_fullpage.png](evidence/customer_profile_after_create_fullpage.png) | Hồ sơ KH — Profile | Ngay sau khi tạo: heading `#<id> <tên>` · 19 tab · 3 tab con · nút globe Website | 34 · 38 · 39 · 40 · 43 · 44 |
-| [evidence/customer_admins_assign_modal_viewport.png](evidence/customer_admins_assign_modal_viewport.png) | Customer Admins | Modal Assign Admin đang mở (chụp lúc modal còn hiệu ứng mờ, đọc được) · bảng `No entries found` | 48 |
-| [evidence/customers_bulk_actions_modal_mass_delete_checked_viewport.png](evidence/customers_bulk_actions_modal_mass_delete_checked_viewport.png) | Bulk Actions | Đã tick Mass Delete — ô Groups ẩn | 56 · 57 |
-| [evidence/customers_import_empty_file_error_fullpage.png](evidence/customers_import_empty_file_error_fullpage.png) | Import Customers | 4 hướng dẫn · bảng mẫu · lỗi chưa chọn tệp | 62 · 63 · 65 |
-| [evidence/customers_import_simulate_result_viewport.png](evidence/customers_import_simulate_result_viewport.png) | Import Customers | Kết quả Simulate: 2 dòng, dòng thiếu Email không bị đánh dấu | 66 · 67 |
-| [evidence/customer_notes_empty_submit_viewport.png](evidence/customer_notes_empty_submit_viewport.png) | Notes | Sau khi lưu note trống: `Note added successfully.` + dòng Description rỗng · banner KH inactive | 45 · 71 |
-| [evidence/customer_notes_list_after_add_edit_viewport.png](evidence/customer_notes_list_after_add_edit_viewport.png) | Notes | 2 note (1 đã sửa `_edited`, 1 trống) · bộ đếm tab `2` | 69 · 70 · 72 |
-| [evidence/customer_files_inactive_banner_uploaded_png_viewport.png](evidence/customer_files_inactive_banner_uploaded_png_viewport.png) | Files | Ghi chú phạm vi · Dropzone · 1 tệp ảnh vừa tải, switch hiển thị tắt · banner KH inactive | 45 · 74 · 75 |
-| [evidence/customer_statement_period_selected_fullpage.png](evidence/customer_statement_period_selected_fullpage.png) | Statement | Đã chọn `Period` (2 ô ngày) · nội dung sao kê kỳ trước · 3 icon Print/PDF/Email | 82 · 83 · 84 |
-| [evidence/customer_statement_send_modal_viewport.png](evidence/customer_statement_send_modal_viewport.png) | Statement — gửi email | KH không có contact: thông báo đỏ · Email to rỗng | 86 |
-| [evidence/customer_vault_entry_required_viewport.png](evidence/customer_vault_entry_required_viewport.png) | Vault Entry | 3 lỗi bắt buộc · 3 radio visibility (mặc định mức 1) · checkbox share | 89 · 90 |
-| [evidence/customer_vault_entry_created_masked_viewport.png](evidence/customer_vault_entry_created_masked_viewport.png) | Vault | Entry vừa tạo (giá trị giả), mật khẩu che `••••••••••` | 91 |
-| [evidence/customer_vault_view_password_confirm_modal_viewport.png](evidence/customer_vault_view_password_confirm_modal_viewport.png) | Vault — View Password | Modal yêu cầu nhập lại mật khẩu (chưa nhập) | 93 |
-| [evidence/customer_map_invalid_coords_saved_viewport.png](evidence/customer_map_invalid_coords_saved_viewport.png) | Map | Sau tải lại: `abc` / `999` vẫn được lưu · câu thiếu Google API key | 97 · 99 |
+| [customers_list_own_records_export_menu_viewport.png](evidence/customers_list_own_records_export_menu_viewport.png) | `/admin/clients` | Lọc `auto_cus_` (3 KH test) · Summary 6 bộ đếm · thanh công cụ · menu Export đang mở · switch Active (1 tắt) · nhóm `customer group b` | 01 · 05 · 06 · 11 · 17 · 18 · 19 · 20 |
+| [customers_list_search_no_match_viewport.png](evidence/customers_list_search_no_match_viewport.png) | `/admin/clients` | Tìm chuỗi không khớp → `No matching records found` | 14 |
+| [customer_new_form_details_default_fullpage.png](evidence/customer_new_form_details_default_fullpage.png) | `/admin/clients/client` | Form tạo mới — tab Customer Details mặc định | 28 · 29 · 40 · 44 · 46 · 47 |
+| [customer_new_form_company_required_viewport.png](evidence/customer_new_form_company_required_viewport.png) | `/admin/clients/client` | Save khi trống → lỗi Company | 30 |
+| [customer_profile_blank_company_saved_viewport.png](evidence/customer_profile_blank_company_saved_viewport.png) | Hồ sơ `#<id>` | Company chỉ khoảng trắng đã lưu — tiêu đề chỉ có `#<id>` | 31 · 55 · 57 |
+| [customer_new_form_duplicate_name_info_viewport.png](evidence/customer_new_form_duplicate_name_info_viewport.png) | `/admin/clients/client` | Thông báo trùng tên sau khi rời ô Company | 33 |
+| [customer_billing_shipping_copied_fullpage.png](evidence/customer_billing_shipping_copied_fullpage.png) | Hồ sơ — Billing & Shipping | Sau `Same as Customer Info` + `Copy Billing Address` · chỉ có nút Save | 51 · 52 · 53 · 58 |
+| [customer_group_modal_required_viewport.png](evidence/customer_group_modal_required_viewport.png) | Modal Add New Customer Group | Save khi trống → lỗi Name | 41 · 42 |
+| [customer_admins_assign_modal_viewport.png](evidence/customer_admins_assign_modal_viewport.png) | Hồ sơ — Customer Admins | Modal Assign Admin đã chọn 1 staff · bảng rỗng phía sau | 61 · 62 |
+| [customer_profile_inactive_banner_viewport.png](evidence/customer_profile_inactive_banner_viewport.png) | Hồ sơ KH Inactive | Banner cảnh báo + link `Mark as active` | 67 |
+| [invoice_customer_dropdown_inactive_hidden_viewport.png](evidence/invoice_customer_dropdown_inactive_hidden_viewport.png) | `/admin/invoices/invoice` | Gõ `auto_cus_` → chỉ 2 KH Active hiện, KH Inactive không có | 69 |
+| [customers_bulk_actions_mass_delete_checked_viewport.png](evidence/customers_bulk_actions_mass_delete_checked_viewport.png) | Modal Bulk Actions | Tick Mass Delete → ô Groups ẩn (bảng phía sau đã lọc rỗng) | 75 · 76 |
+| [customers_import_page_default_viewport.png](evidence/customers_import_page_default_viewport.png) | `/admin/clients/import` | Trang mặc định: 4 hướng dẫn, bảng mẫu, form | 83 · 84 · 85 |
+| [customers_import_simulate_result_viewport.png](evidence/customers_import_simulate_result_viewport.png) | `/admin/clients/import` | Kết quả Simulate 5 dòng (hợp lệ, thiếu email, trùng email, email sai, thiếu company) — không dòng nào bị đánh dấu · Country = 0 · ô file đã trống | 88 · 90 · 91 · 92 |
+| [customer_notes_list_empty_and_text_viewport.png](evidence/customer_notes_list_empty_and_text_viewport.png) | Hồ sơ — Notes | 3 note (2 note trống) · badge `3` · icon sửa/xoá | 96 · 98 · 99 · 100 |
+| [customer_files_uploaded_png_visible_viewport.png](evidence/customer_files_uploaded_png_visible_viewport.png) | Hồ sơ — Files | Ghi chú đầu bảng · dropzone · 1 PNG đã upload, switch `Show to customers area` bật | 103 · 106 · 107 |
+| [customer_statement_period_reversed_fullpage.png](evidence/customer_statement_period_reversed_fullpage.png) | Hồ sơ — Statement | Period đảo ngược `11-11-2026 To 01-01-2026` vẫn hiển thị · 3 nút Print/PDF/Email | 114 · 116 · 117 · 118 |
+| [customer_statement_send_modal_no_contact_viewport.png](evidence/customer_statement_send_modal_no_contact_viewport.png) | Modal Account Summary | KH không có contact → cảnh báo đỏ · Email to rỗng | 120 |
+| [customer_vault_entry_required_viewport.png](evidence/customer_vault_entry_required_viewport.png) | Modal Vault Entry | Save khi trống → 3 lỗi bắt buộc · radio/checkbox mặc định | 124 · 125 |
+| [customer_vault_entry_created_masked_viewport.png](evidence/customer_vault_entry_created_masked_viewport.png) | Hồ sơ — Vault | Thẻ entry vừa tạo · Port 70000 · mật khẩu che | 126 · 127 · 128 |
+| [customer_vault_view_password_modal_viewport.png](evidence/customer_vault_view_password_modal_viewport.png) | Modal View Password | Modal yêu cầu nhập mật khẩu đăng nhập (chưa nhập) | 132 |
+| [customer_map_invalid_coords_saved_viewport.png](evidence/customer_map_invalid_coords_saved_viewport.png) | Hồ sơ — Map | Toạ độ `abc` / `999` còn sau khi lưu + tải lại · thông báo thiếu Google API key | 135 · 136 · 137 |
 
-**REQ 🟢 không có ảnh — căn cứ là số liệu DOM / network ghi trong AC:** 04 · 09 · 10 · 11 · 12 · 13 · 14 · 15 · 19 · 20 · 21 · 23 · 24 · 25 · 35 · 36 · 37 · 41 · 42 · 47 · 49 · 50 · 51 · 54 · 58 · 60 · 73 · 76 · 77 · 80 · 81 · 88 · 92 · 96 · 98.
+REQ 🟢 không có ảnh nào ở bảng trên đều có **số liệu đọc DOM / network ghi trong cột Acceptance Criteria** của file Story (skill 7.2.1).
+
+## 5. Dữ liệu do lượt khảo sát tạo ra
+
+| Bản ghi | Thao tác | Đã dọn |
+|---|---|---|
+| KH `#15847` (Company chỉ khoảng trắng) | Tạo → xoá đơn lẻ (REQ 70 → 72) | ✅ Trả 404 |
+| KH `#15848` `auto_cus_20261111_1420` (+ 2 note, 1 tệp PNG, 1 vault entry, toạ độ Map) | Tạo (206 ký tự → cắt) · sửa · gán/gỡ admin · bulk group | ✅ Note/tệp/vault xoá riêng · KH xoá bằng Mass Delete |
+| KH `#15849` `auto_cus_20261111_1420` (trùng tên) | Tạo · bulk group | ✅ Mass Delete |
+| KH `#15850` `auto_cus_sc_20261111_1422` | Save and create contact · tắt/bật Active | ✅ Mass Delete (`Total customers deleted: 3`) |
+| Import | Chỉ Simulate — không tạo bản ghi (REQ 89) | — |
+
+Sau dọn: tìm `20261111_14` trả `0 entries`; Summary về `2942 Total · 9 Inactive` — đúng số trước khảo sát.
